@@ -47,7 +47,6 @@ function Form() {
 
   useEffect(() => {
     formSchema.isValid(formState).then((valid) => {
-      console.log("valid", valid);
       setIsButtonDisabled(!valid);
     });
   }, [formState]);
@@ -58,6 +57,7 @@ function Form() {
     
     axios.post("https://reqres.in/api/users", formState)
     .then(response => {
+        console.log(response.data);
         setUsers(response.data);
         setFormState({
             name: "",
@@ -79,12 +79,11 @@ function Form() {
     validateChange(e)
     setFormState(newFormData);
   };
-
   return (
     <div>
       <h1>Form</h1>
       <form onSubmit={formSubmit}>
-        <p>
+        
           <label htmlFor="nameInput">
             Name:<span> </span>
             <input
@@ -96,9 +95,9 @@ function Form() {
             />
             {(errors.name.length > 0) ? <p className="error">{errors.name}</p>: null}
           </label>
-        </p>
-
-        <p>
+        
+        <br></br>
+        
           <label htmlFor="emailInput">
             Email:<span> </span>
             <input
@@ -110,8 +109,8 @@ function Form() {
             />
             {(errors.email.length > 0) ? <p className="error">{errors.email}</p>: null}
           </label>
-        </p>
-        <p>
+        
+        <br></br>
           <label htmlFor="passwordInput">
             Password:<span></span>
             <input
@@ -123,8 +122,8 @@ function Form() {
             />
              {(errors.password.length > 0) ? <p className="error">{errors.password}</p>: null}
           </label>
-        </p>
-        <p>
+        
+          <br></br>
           <label htmlFor="terms">
             Approve Terms of Service:<span> </span>
             <input
@@ -135,7 +134,7 @@ function Form() {
               checked={formState.terms}
             />
           </label>
-        </p>
+        
         <pre>{JSON.stringify(users,null, 2)}</pre>
         <button disabled={isButtonDisabled} type="submit">
           Submit
