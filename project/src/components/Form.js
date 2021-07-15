@@ -3,8 +3,8 @@ import * as yup from "yup";
 import axios from "axios";
 
 function Form() {
-
-  const [users, setUsers] = useState([])
+  const [user, setUser] = useState([]);
+  const [listOfUsers, setListOfUsers] = useState([]);
 
   const [formState, setFormState] = useState({
     name: "",
@@ -54,18 +54,19 @@ function Form() {
   //Form submission function
   const formSubmit = (e) => {
     e.preventDefault();
-    
-    axios.post("https://reqres.in/api/users", formState)
-    .then(response => {
-        console.log(response.data);
-        setUsers(response.data);
+
+    axios
+      .post("https://reqres.in/api/user", formState)
+      .then((response) => {
+        setUser(response.data);
         setFormState({
-            name: "",
-            email: "",
-            password: "",
-            terms: "",
+          name: "",
+          email: "",
+          password: "",
+          terms: "",
         });
-    }).catch(err => console.log(err.response));
+      })
+      .catch((err) => console.log(err.response));
   };
 
   //onChange function
@@ -76,67 +77,75 @@ function Form() {
       [e.target.name]:
         e.target.type === "checkbox" ? e.target.checked : e.target.value,
     };
-    validateChange(e)
+    validateChange(e);
     setFormState(newFormData);
   };
   return (
     <div>
       <h1>Form</h1>
       <form onSubmit={formSubmit}>
-        
-          <label htmlFor="nameInput">
-            Name:<span> </span>
-            <input
-              type="text"
-              id="nameInput"
-              name="name"
-              onChange={inputChange}
-              value={formState.name}
-            />
-            {(errors.name.length > 0) ? <p className="error">{errors.name}</p>: null}
-          </label>
-        
+        <label htmlFor="nameInput">
+          Name:<span> </span>
+          <input
+            type="text"
+            id="nameInput"
+            name="name"
+            data-cy="name"
+            onChange={inputChange}
+            value={formState.name}
+          />
+          {errors.name.length > 0 ? (
+            <p className="error">{errors.name}</p>
+          ) : null}
+        </label>
+
         <br></br>
-        
-          <label htmlFor="emailInput">
-            Email:<span> </span>
-            <input
-              type="email"
-              id="emailInput"
-              name="email"
-              onChange={inputChange}
-              value={formState.email}
-            />
-            {(errors.email.length > 0) ? <p className="error">{errors.email}</p>: null}
-          </label>
-        
+
+        <label htmlFor="emailInput">
+          Email:<span> </span>
+          <input
+            type="email"
+            id="emailInput"
+            name="email"
+            data-cy="email"
+            onChange={inputChange}
+            value={formState.email}
+          />
+          {errors.email.length > 0 ? (
+            <p className="error">{errors.email}</p>
+          ) : null}
+        </label>
+
         <br></br>
-          <label htmlFor="passwordInput">
-            Password:<span></span>
-            <input
-              type="password"
-              id="passwordInput"
-              name="password"
-              onChange={inputChange}
-              value={formState.password}
-            />
-             {(errors.password.length > 0) ? <p className="error">{errors.password}</p>: null}
-          </label>
-        
-          <br></br>
-          <label htmlFor="terms">
-            Approve Terms of Service:<span> </span>
-            <input
-              type="checkbox"
-              id="terms"
-              name="terms"
-              onChange={inputChange}
-              checked={formState.terms}
-            />
-          </label>
-        
-        <pre>{JSON.stringify(users,null, 2)}</pre>
-        <button disabled={isButtonDisabled} type="submit">
+        <label htmlFor="passwordInput">
+          Password:<span></span>
+          <input
+            type="password"
+            id="passwordInput"
+            name="password"
+            data-cy="password"
+            onChange={inputChange}
+            value={formState.password}
+          />
+          {errors.password.length > 0 ? (
+            <p className="error">{errors.password}</p>
+          ) : null}
+        </label>
+
+        <br></br>
+        <label htmlFor="terms">
+          Approve Terms of Service:<span> </span>
+          <input
+            type="checkbox"
+            id="terms"
+            name="terms"
+            data-cy="terms"
+            onChange={inputChange}
+            checked={formState.terms}
+          />
+        </label>
+        <pre data-cy="output">{JSON.stringify(user, null, 2)}</pre>
+        <button disabled={isButtonDisabled} type="submit" data-cy="submit">
           Submit
         </button>
       </form>
