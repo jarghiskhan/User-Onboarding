@@ -95,13 +95,13 @@ function Form() {
             value={formState.name}
           />
           {errors.name.length > 0 ? (
-            <p className="error">{errors.name}</p>
+            <p className="error" data-cy="nameError">{errors.name}</p>
           ) : null}
         </label>
 
         <br></br>
 
-        <label htmlFor="emailInput">
+        <label htmlFor="emailInput" >
           Email:<span> </span>
           <input
             type="email"
@@ -112,7 +112,7 @@ function Form() {
             value={formState.email}
           />
           {errors.email.length > 0 ? (
-            <p className="error">{errors.email}</p>
+            <p data-cy="emailError" className="error">{errors.email}</p>
           ) : null}
         </label>
 

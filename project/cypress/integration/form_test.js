@@ -18,11 +18,14 @@ describe("testing name input", () => {
     cy.get('[data-cy="terms"]').click().should("be.checked");
     //test submit
     cy.get('[data-cy="submit"]').click();
-    cy.get('[data-cy="output"]').contains(`{
-        "name": "Nuggs",
-        "email": "nuggs@tuggs.com",
-        "password": "asldkfjasljdsf",
-      }`)
+    cy.get('[data-cy="output"]').should('be.visible')
   });
+  it("checks bad string data in email", ()=>{
+    cy.get('[data-cy=email]')
+    .type("asdf")
+    .should("have.value","asdf")
+    cy.get('[data-cy=emailError]')
+    .should('be.visible')
+  })
 
 });
